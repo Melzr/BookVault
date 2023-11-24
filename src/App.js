@@ -10,11 +10,13 @@ import {
 } from '@chakra-ui/react';
 import { ColorModeSwitcher } from './ColorModeSwitcher';
 import SearchBar from './components/SearchBar';
+import BookTable from './components/BookTable';
 import { searchBooks } from './services/booksApi';
 import { parseQuery } from './utils/parseQuery';
 
 function App() {
   const [isLoading, setIsLoading] = React.useState(false);
+  const [books, setBooks] = React.useState([]);
   const toast = useToast();
 
   const handleSearch = async (query) => {
@@ -23,7 +25,7 @@ function App() {
     try {
       const parsedQuery = parseQuery(query);
       const response = await searchBooks(parsedQuery);
-      console.log(response);
+      setBooks(response.docs);
     } catch (error) {
       console.log(error);
       toast({
@@ -45,6 +47,9 @@ function App() {
           <Heading>Book Search</Heading>
           <SearchBar disabled={isLoading} onSubmit={handleSearch} />
           {isLoading && <Spinner size="xl" />}
+          {!isLoading && books.length > 0 && (
+            <BookTable books={books} />
+          )}
         </VStack>
       </Box>
     </ChakraProvider>
