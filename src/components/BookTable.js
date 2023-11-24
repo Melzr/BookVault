@@ -6,8 +6,8 @@ const BOOKS_PER_PAGE = 10;
 const BookItem = ({ key, title, author_name, first_publish_year }) => (
   <Tr key={key}>
     <Td>{title}</Td>
-    <Td>{author_name.join(", ")}</Td>
-    <Td isNumeric>{first_publish_year}</Td>
+    <Td>{author_name && author_name.length > 0 ? author_name.join(", ") : 'Unknown'}</Td>
+    <Td isNumeric>{first_publish_year || 'Unknown'}</Td>
   </Tr>
 );
 
@@ -19,7 +19,7 @@ const BookTable = ({ books }) => {
   }, [books]);
 
   return (
-    <TableContainer width="100%" maxW="1200" minW="600" overflowX="auto" whiteSpace="pre-wrap">
+    <TableContainer width="100%" maxW="1200" minW="500" overflowX="auto" whiteSpace="pre-wrap">
       <Table variant='simple'>
         <Thead>
           <Tr>
