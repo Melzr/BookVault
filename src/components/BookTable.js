@@ -1,7 +1,6 @@
 import React from "react";
-import { Table, TableContainer, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/react";
-
-const BOOKS_PER_PAGE = 10;
+import { Box, IconButton, Table, TableContainer, Tbody, Text, Thead, Th, Tr, Td } from "@chakra-ui/react";
+import { FaAngleDoubleLeft, FaAngleDoubleRight, FaAngleLeft, FaAngleRight } from 'react-icons/fa';
 
 const BookItem = ({ key, title, author_name, first_publish_year }) => (
   <Tr key={key}>
@@ -11,12 +10,23 @@ const BookItem = ({ key, title, author_name, first_publish_year }) => (
   </Tr>
 );
 
-const BookTable = ({ books }) => {
-  const [indexOffset, setIndexOffset] = React.useState(0);
-
-  React.useEffect(() => {
-    setIndexOffset(0);
-  }, [books]);
+const BookTable = ({
+  books,
+  currentPage,
+  totalItems,
+  nextPageDisabled,
+  previousPageDisabled,
+  initialPageDisabled,
+  lastPageDisabled,
+  onNextPage,
+  onPreviousPage,
+  onInitialPage,
+  onLastPage,
+  itemsPerPage,
+}) => {
+  console.log(currentPage);
+  const index = currentPage * itemsPerPage - itemsPerPage + 1;
+  const lastIndex = Math.min(index + itemsPerPage - 1, totalItems);
 
   return (
     <TableContainer width="100%" maxW="1200" minW="500" overflowX="auto" whiteSpace="pre-wrap">
@@ -29,9 +39,18 @@ const BookTable = ({ books }) => {
           </Tr>
         </Thead>
         <Tbody>
-          {books.slice(indexOffset, indexOffset + BOOKS_PER_PAGE).map(BookItem)}
+          {books.map(BookItem)}
         </Tbody>
       </Table>
+      <Box display="flex" justifyContent="end" alignItems="center" mt={4}>
+        <IconButton icon={<FaAngleDoubleLeft />} isDisabled={initialPageDisabled} onClick={onInitialPage} />
+        <IconButton ml={1} icon={<FaAngleLeft />} isDisabled={previousPageDisabled} onClick={onPreviousPage} />
+        <Text mx={4}>
+          {`${index}-${lastIndex} of ${totalItems}`}
+        </Text>
+        <IconButton icon={<FaAngleRight />} isDisabled={nextPageDisabled} onClick={onNextPage} />
+        <IconButton ml={1} icon={<FaAngleDoubleRight />} isDisabled={lastPageDisabled} onClick={onLastPage} />
+      </Box>
     </TableContainer>
   );
 };

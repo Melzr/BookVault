@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import { Box, Input, InputGroup, InputRightElement, Text } from "@chakra-ui/react";
 import { SearchIcon } from "@chakra-ui/icons";
-
-const MIN_INPUT_LENGTH = 3;
+import { MIN_INPUT_LENGTH } from '../constants';
 
 const SearchBar = ({ disabled, onSubmit }) => {
   const [inputValue, setInputValue] = useState('');
