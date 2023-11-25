@@ -1,0 +1,18 @@
+.book-search-container {
+  flex: 1;
+}
+
+@media screen and (max-width: 768px) {
+  .book-search-container {
+
+    .search-bar-container {
+      flex-direction: column-reverse;
+      align-items: flex-start;
+      gap: 0;
+
+      .title {
+        margin-bottom: -14px;
+      }
+    }
+  }
+}

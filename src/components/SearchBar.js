@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import { Box, Input, InputGroup, InputRightElement, Text } from "@chakra-ui/react";
+import { Box, Input, InputGroup, InputRightElement, Spacer, Text } from "@chakra-ui/react";
 import { SearchIcon } from "@chakra-ui/icons";
 import { MIN_INPUT_LENGTH } from '../constants';
 
-const SearchBar = ({ disabled, onSubmit }) => {
+const SearchBar = ({ disabled, onSubmit, maxWidth = "500" }) => {
   const [inputValue, setInputValue] = useState('');
   const [error, setError] = useState('');
 
@@ -30,7 +30,8 @@ const SearchBar = ({ disabled, onSubmit }) => {
 
 
   return (
-    <Box w="100%" maxW="300" spacing={1} align="start">
+    <Box w="100%" maxW={maxWidth} spacing={1} align="start">
+      <Spacer h="24px" />
       <InputGroup width="100%">
         <Input
           placeholder="Search..."
@@ -44,7 +45,7 @@ const SearchBar = ({ disabled, onSubmit }) => {
           <SearchIcon color="gray.500" />
         </InputRightElement>
       </InputGroup>
-      {error && <Text color="red.500" fontSize="sm" pl="1">{error}</Text>}
+      {error ? <Text color="red.500" fontSize="sm" pl="1" h="24px">{error}</Text> : <Spacer h="24px" />}
     </Box>
   );
 };
