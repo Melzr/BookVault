@@ -2,52 +2,45 @@ import React from "react";
 import { FaAngleDoubleLeft, FaAngleDoubleRight, FaAngleLeft, FaAngleRight } from 'react-icons/fa';
 import { Box, IconButton, Table, TableContainer, Tbody, Text, Thead, Th, Tr, Td } from "@chakra-ui/react";
 import BookDetailModal from "./BookDetailModal";
-import { parseBookKey } from "../services/booksApi";
+import { BookVaultContext } from "../context/BookVaultContext";
 import "../styles/table.scss";
 
-const BookItem = ({ key, title, author_name, first_publish_year, onClick }) => (
-  <Tr key={key} onClick={onClick} cursor="pointer">
-    <Td>{title}</Td>
+const BookItem = ({ title, author_name, first_publish_year, onClick }) => (
+  <Tr onClick={onClick} cursor="pointer">
+    <Td>{title || 'Unknown'}</Td>
     <Td>{author_name && author_name.length > 0 ? author_name.join(", ") : 'Unknown'}</Td>
     <Td isNumeric>{first_publish_year || 'Unknown'}</Td>
   </Tr>
 );
 
-const BookTable = ({
-  books,
-  currentPage,
-  totalItems,
-  nextPageDisabled,
-  previousPageDisabled,
-  initialPageDisabled,
-  lastPageDisabled,
-  onNextPage,
-  onPreviousPage,
-  onInitialPage,
-  onLastPage,
-  itemsPerPage,
-}) => {
-  const index = currentPage * itemsPerPage - itemsPerPage + 1;
-  const lastIndex = Math.min(index + itemsPerPage - 1, totalItems);
-  const [activeBookKeys, setActiveBookKeys] = React.useState(null); // [bookKey, authorKeys]
+const BookTable = () => {
+  const {
+    books,
+    currentStartIndex,
+    currentEndIndex,
+    totalItems,
+    nextPageDisabled,
+    previousPageDisabled,
+    initialPageDisabled,
+    lastPageDisabled,
+    handleInitialPage,
+    handlePreviousPage,
+    handleNextPage,
+    handleLastPage,
+  } = React.useContext(BookVaultContext);
+  const [activeBookKeys, setActiveBookKeys] = React.useState({}); // { bookKey, authorsKeys }
 
   const onBookClick = (bookKey, authorsKeys) => {
-    const parsedKey = parseBookKey(bookKey);
-    setActiveBookKeys([parsedKey, authorsKeys]);
+    setActiveBookKeys({ bookKey, authorsKeys });
   };
 
-  const onModalClose = () => {
-    setActiveBookKeys(null);
-  }
+  const onModalClose = React.useCallback(() => {
+    setActiveBookKeys({});
+  }, []);
 
   return (
     <>
-      {activeBookKeys && (
-        <BookDetailModal
-          bookKey={activeBookKeys ? activeBookKeys[0] : null}
-          authorsKeys={activeBookKeys ? activeBookKeys[1] : null}
-          onClose={onModalClose} />
-      )}
+      {activeBookKeys.bookKey && <BookDetailModal keys={activeBookKeys} onClose={onModalClose} />}
       <TableContainer w="100%" whiteSpace="pre-wrap" className="table-container">
         <Box overflowX="auto">
           <Table variant="simple">
@@ -70,13 +63,13 @@ const BookTable = ({
           </Table>
         </Box>
         <Box display="flex" justifyContent="end" alignItems="center" mt={4} className="pagination-buttons">
-          <IconButton icon={<FaAngleDoubleLeft />} isDisabled={initialPageDisabled} onClick={onInitialPage} />
-          <IconButton ml={1} icon={<FaAngleLeft />} isDisabled={previousPageDisabled} onClick={onPreviousPage} />
+          <IconButton icon={<FaAngleDoubleLeft />} isDisabled={initialPageDisabled} onClick={handleInitialPage} />
+          <IconButton ml={1} icon={<FaAngleLeft />} isDisabled={previousPageDisabled} onClick={handlePreviousPage} />
           <Text mx={4}>
-            {`${index}-${lastIndex} of ${totalItems}`}
+            {`${currentStartIndex}-${currentEndIndex} of ${totalItems}`}
           </Text>
-          <IconButton icon={<FaAngleRight />} isDisabled={nextPageDisabled} onClick={onNextPage} />
-          <IconButton ml={1} icon={<FaAngleDoubleRight />} isDisabled={lastPageDisabled} onClick={onLastPage} />
+          <IconButton icon={<FaAngleRight />} isDisabled={nextPageDisabled} onClick={handleNextPage} />
+          <IconButton ml={1} icon={<FaAngleDoubleRight />} isDisabled={lastPageDisabled} onClick={handleLastPage} />
         </Box>
       </TableContainer>
     </>

@@ -17,7 +17,7 @@ export const getAuthorData = async (authorKey) => {
 }
 
 export const getBookData = async (bookKey) => {
-  const url = `${API_URL}/works/${bookKey}.json`;
+  const url = `${API_URL}${bookKey}.json`;
   const { data } = await axios.get(url);
 
   return data;
@@ -26,11 +26,3 @@ export const getBookData = async (bookKey) => {
 export const parseQuery = (query) => {
   return query.replace(/\s/g, '+');
 };
-
-export const parseBookKey = (key) => {
-  // key is, for example "/works/OL27448W"
-  // returns "OL27448W"
-
-  return key.split('/')[2];
-}
-

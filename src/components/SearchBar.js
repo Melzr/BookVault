@@ -28,7 +28,6 @@ const SearchBar = ({ disabled, onSubmit, maxWidth = '500', initialInput = '' }) 
     }
   };
 
-
   return (
     <Box w="100%" maxW={maxWidth} spacing={1} align="start">
       <Spacer h="24px" />
