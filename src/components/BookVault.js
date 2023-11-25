@@ -9,10 +9,9 @@ import {
 import BookTable from './BookTable';
 import BookVaultErrorBoundary from './ErrorBoundary';
 import SearchBar from './SearchBar';
+import { APP_NAME } from '../constants';
 import BookVaultContextController, { BookVaultContext } from '../context/BookVaultContext';
 import '../styles/book-vault.scss';
-
-const TITLE = "Book Vault";
 
 const BookVault = () => {
   const { books, query, isLoading, handleSearch } = React.useContext(BookVaultContext);
@@ -28,7 +27,7 @@ const BookVault = () => {
         <>
           <HStack spacing="4" align="center" px="4" className="search-bar-container">
             <SearchBar disabled={isLoading} onSubmit={handleSearch} maxWidth="300" initialInput={query} />
-            <Heading size="l" className="title">{TITLE}</Heading>
+            <Heading size="l" className="title">{APP_NAME}</Heading>
           </HStack>
           {isLoading ? (
             <Spinner size="xl" mt="15%" />
@@ -38,7 +37,7 @@ const BookVault = () => {
         </>
       ) : (
         <>
-          <Heading size="xl" mt="15%" className="title">{TITLE}</Heading>
+          <Heading size="xl" mt="15%" className="title">{APP_NAME}</Heading>
           <SearchBar disabled={isLoading} onSubmit={handleSearch} initialInput={query} />
           {isLoading ? (
             <Spinner size="xl" mt="6" />
