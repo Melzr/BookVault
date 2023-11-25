@@ -10,8 +10,7 @@ import {
 import SearchBar from './SearchBar';
 import BookTable from './BookTable';
 import { BOOKS_PER_PAGE } from '../constants';
-import { searchBooks } from '../services/booksApi';
-import { parseQuery } from '../utils/parseQuery';
+import { parseQuery, searchBooks } from '../services/booksApi';
 import '../styles/book-vault.scss';
 
 const BookVault = () => {
