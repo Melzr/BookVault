@@ -6,8 +6,9 @@ import {
   Text,
   HStack,
 } from '@chakra-ui/react';
-import SearchBar from './SearchBar';
 import BookTable from './BookTable';
+import BookVaultErrorBoundary from './ErrorBoundary';
+import SearchBar from './SearchBar';
 import BookVaultContextController, { BookVaultContext } from '../context/BookVaultContext';
 import '../styles/book-vault.scss';
 
@@ -54,9 +55,11 @@ const BookVault = () => {
 
 const BookVaultContainer = () => {
   return (
-    <BookVaultContextController>
-      <BookVault />
-    </BookVaultContextController>
+    <BookVaultErrorBoundary>
+      <BookVaultContextController>
+        <BookVault />
+      </BookVaultContextController>
+    </BookVaultErrorBoundary>
   );
 };
 

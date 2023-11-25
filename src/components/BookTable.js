@@ -3,7 +3,7 @@ import { FaAngleDoubleLeft, FaAngleDoubleRight, FaAngleLeft, FaAngleRight } from
 import { Box, IconButton, Table, TableContainer, Tbody, Text, Thead, Th, Tr, Td } from "@chakra-ui/react";
 import BookDetailModal from "./BookDetailModal";
 import { BookVaultContext } from "../context/BookVaultContext";
-import "../styles/table.scss";
+import "../styles/book-table.scss";
 
 const BookItem = ({ title, author_name, first_publish_year, onClick }) => (
   <Tr onClick={onClick} cursor="pointer">
