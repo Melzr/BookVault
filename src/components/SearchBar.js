@@ -3,8 +3,8 @@ import { Box, Input, InputGroup, InputRightElement, Spacer, Text } from "@chakra
 import { SearchIcon } from "@chakra-ui/icons";
 import { MIN_INPUT_LENGTH } from '../constants';
 
-const SearchBar = ({ disabled, onSubmit, maxWidth = "500" }) => {
-  const [inputValue, setInputValue] = useState('');
+const SearchBar = ({ disabled, onSubmit, maxWidth = '500', initialInput = '' }) => {
+  const [inputValue, setInputValue] = useState(initialInput);
   const [error, setError] = useState('');
 
   const search = () => {

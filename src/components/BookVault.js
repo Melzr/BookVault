@@ -26,7 +26,8 @@ const BookVault = () => {
     setIsLoading(true);
 
     try {
-      const { docs, numFound } = await searchBooks(q, newPage, BOOKS_PER_PAGE);
+      const parsedQuery = parseQuery(q);
+      const { docs, numFound } = await searchBooks(parsedQuery, newPage, BOOKS_PER_PAGE);
       setTotalItems(numFound);
       setCurrentPage(newPage);
       setBooks(docs);
@@ -44,9 +45,8 @@ const BookVault = () => {
   };
 
   const handleSearch = async (newQuery) => {
-    const parsedQuery = parseQuery(newQuery);
-    setQuery(parsedQuery);
-    fetchPage(1, parsedQuery);
+    setQuery(newQuery);
+    fetchPage(1, newQuery);
   };
 
   const totalPages = Math.ceil(totalItems / BOOKS_PER_PAGE);
@@ -82,7 +82,7 @@ const BookVault = () => {
       {shouldDisplayTable ? (
         <>
           <HStack spacing="4" align="center" px="4" className="search-bar-container">
-            <SearchBar disabled={isLoading} onSubmit={handleSearch} maxWidth="300" />
+            <SearchBar disabled={isLoading} onSubmit={handleSearch} maxWidth="300" initialInput={query} />
             <Heading size="l" className="title">{title}</Heading>
           </HStack>
           {isLoading ? (
@@ -107,7 +107,7 @@ const BookVault = () => {
       ) : (
         <>
           <Heading size="xl" mt="15%" className="title">{title}</Heading>
-          <SearchBar disabled={isLoading} onSubmit={handleSearch} />
+          <SearchBar disabled={isLoading} onSubmit={handleSearch} initialInput={query} />
           {isLoading ? (
             <Spinner size="xl" mt="6" />
           ) : (
