@@ -5,18 +5,16 @@ import {
   Spinner,
   Box,
   Text,
-  Spacer,
   HStack,
-  Center,
 } from '@chakra-ui/react';
-import SearchBar from '../components/SearchBar';
-import BookTable from '../components/BookTable';
+import SearchBar from './SearchBar';
+import BookTable from './BookTable';
 import { BOOKS_PER_PAGE } from '../constants';
 import { searchBooks } from '../services/booksApi';
 import { parseQuery } from '../utils/parseQuery';
-import '../styles/book-search.scss';
+import '../styles/book-vault.scss';
 
-const BookSearch = () => {
+const BookVault = () => {
   const [query, setQuery] = React.useState('');
   const [isLoading, setIsLoading] = React.useState(false);
   const [books, setBooks] = React.useState([]);
@@ -76,15 +74,16 @@ const BookSearch = () => {
   const shouldDisplayTable = books.length > 0;
   const infoText = query
     ? `Sorry! We couldn't find any results for "${query}"`
-    : "Our library holds over 20 million records, you'll find any book you're searching for here!";
+    : "Our vault holds over 20 million records, you'll find any book you're searching for here!";
+  const title = "Book Vault";
 
   return (
-    <Box className='book-search-container' w="100%" maxW="1400" align="center" flexDirection="column">
+    <Box className='book-vault-container' w="100%" maxW="1400" align="center" flexDirection="column">
       {shouldDisplayTable ? (
         <>
           <HStack spacing="4" align="center" px="4" className="search-bar-container">
             <SearchBar disabled={isLoading} onSubmit={handleSearch} maxWidth="300" />
-            <Heading size="l" className="title">Book Search</Heading>
+            <Heading size="l" className="title">{title}</Heading>
           </HStack>
           {isLoading ? (
             <Spinner size="xl" mt="15%" />
@@ -107,7 +106,7 @@ const BookSearch = () => {
         </>
       ) : (
         <>
-          <Heading size="xl" mt="15%" className="title">Book Search</Heading>
+          <Heading size="xl" mt="15%" className="title">{title}</Heading>
           <SearchBar disabled={isLoading} onSubmit={handleSearch} />
           {isLoading ? (
             <Spinner size="xl" mt="6" />
@@ -122,4 +121,4 @@ const BookSearch = () => {
   );
 }
 
-export default BookSearch;
+export default BookVault;

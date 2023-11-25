@@ -1,9 +1,9 @@
-.book-search-container {
+.book-vault-container {
   flex: 1;
 }
 
 @media screen and (max-width: 768px) {
-  .book-search-container {
+  .book-vault-container {
 
     .search-bar-container {
       flex-direction: column-reverse;

@@ -5,14 +5,14 @@ import {
   VStack,
   theme,
 } from '@chakra-ui/react';
-import BookSearch from './components/BookSearch';
+import BookVault from './components/BookVault';
 
 function App() {
   return (
     <ChakraProvider theme={theme}>
       <Box textAlign="center" fontSize="xl">
         <VStack minH="100vh" p={3}>
-          <BookSearch />
+          <BookVault />
         </VStack>
       </Box>
     </ChakraProvider>
